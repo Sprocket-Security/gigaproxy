@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     if "x-debug-call" in event["headers"].keys():
         print(event)
 
-    url = event["headers"].pop("forward-me-to")
+    url = event["headers"].pop("x-forward-me-to")
     
     if not url:
         return {
