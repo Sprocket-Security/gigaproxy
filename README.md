@@ -19,6 +19,6 @@ Fast and cheap IP rotation using AWS API Gateway and Lambda.
 - Look for the output `api-endpoint` in your terminal after applying
 
 ### Hitting the API
-- Using the `api-endpoint` value from above, send a request to the API with the following headers:
+- Using the `api-endpoint` value from the above Terraform output or from the AWS console, send a request to the API with the following headers:
     - `x-api-key`, with a value of your API key (if you didn't set one manually in the Terraform code, check your AWS console)
     - `x-forward-me-to`, with a value of whatever you actually want to hit (e.g. `https://ipv4.rawrify.com/ip`)
