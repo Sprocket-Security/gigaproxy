@@ -90,7 +90,7 @@ resource "aws_api_gateway_usage_plan" "proxy-usage-plan" {
   }
 
   quota_settings {
-    limit  = 20000000 # By default, limit to 20 million requests per month. Can be modified or fully removed for no cap
+    limit  = var.api_monthly_quota # By default, limit to 10 million requests per month. Can be modified or fully removed for no cap
     period = "MONTH"
   }
 }
