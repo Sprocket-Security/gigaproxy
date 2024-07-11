@@ -10,3 +10,15 @@ variable "api_key" {
   type        = string
   default     = ""
 }
+
+variable "log_retention_period" {
+  description = "Duration for how long logs should be kept for the forwarder function in days. Defaults to 14 days."
+  type = number
+  default = 14
+}
+
+variable "api_monthly_quota" {
+  description = "Number of requests to allow per month to the proxy API. Defaults to 10 million. Don't rely on this too much as a hard cap, there can be some wiggle room in how this is enforced (per AWS documentation)"
+  type = number
+  default = 10000000
+}
