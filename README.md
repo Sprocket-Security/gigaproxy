@@ -3,9 +3,9 @@
 <h3 align="center">The Giga Proxy</h3>
 
 ## Why? 
-[fireprox]() is great but has one major downside. You can only target a single host at a time. 
+fireprox is great but has one major downside. You can only target a single host at a time. 
 
-Gigaproxy solves this. For more details on how it works, check out the blog post **COMING SOON**. 
+Gigaproxy solves this. Check out the blog post **COMING SOON** for more details on how it works. 
 
 ## Getting Started
 
@@ -20,14 +20,14 @@ To use this project and the built-in `gigaproxy.py` script, you will need the fo
 
 ## Build the Infrastructure
 
-First, optionally update the `terraform/variables.tf` with an API key that will be required to authenticate to the generated API gateway endpoint. **If you don't set this yourself, you will need to go into the AWS console and get it. We reccomend specifying your own!**
+First, optionally update the `terraform/variables.tf` with an API key that will be required to authenticate to the generated API gateway endpoint. **If you don't set this yourself, you must go into the AWS console and get it. We recommend specifying your own!**
 
 To build the infrastructure, you can use the following commands:
 
 ```bash
 cd terraform/
 terraform init
-terraform plan # optional: if you want to see what's going to be built before running apply
+terraform plan # optional: if you want to see what's going to be built before running, apply
 terraform apply
 ```
 
@@ -44,9 +44,9 @@ mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-en
 
 There are also a couple of secret options that you can use if you read the code. 
 
-If you are going to run this on a VPS somewhere, we reccomend tossing this in a tmux or screen session because it will take over your terminal. 
+If you run this on a VPS somewhere, we recommend tossing it in a tmux or screen session because it will take over your terminal. 
 
-Note that you can also specify a custom port and host to listen on. By default mitmdump will listen on 127.0.0.1:8080. For example:
+Note that you can specify a custom port and host to listen on. By default, mitmdump will listen on 127.0.0.1:8080. For example:
 
 ```bash
 mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-endpoint> --listen-host 0.0.0.0 --listen-port 8888
@@ -55,7 +55,7 @@ mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-en
 
 ## Testing 
 
-With mitmdump running, here is how you can test it is working properly. First make a file containing multiple ipinfo retrival endpoints.
+With mitmdump running, you can test if everything is working properly. First, make a file containing multiple public IP retrieval endpoints.
 
 ```txt
 https://ifconfig.me
@@ -63,13 +63,13 @@ https://api.ipify.org
 https://ipv4.rawrify.com/ip
 ```
 
-Then run the following for loop
+Then run the following for loop:
 
 ```bash
 while true; do for i in $(cat endpoints.txt); do curl -s $i -x http://127.0.0.1:8080; done; done
 ```
 
-Every minute your public IP should change. 
+Every minute, your public IP should change. 
 
 
 ## Examples 
