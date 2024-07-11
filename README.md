@@ -46,7 +46,9 @@ There are also a couple of secret options that you can use if you read the code.
 
 If you run this on a VPS somewhere, we recommend tossing it in a tmux or screen session because it will take over your terminal. 
 
-Note that you can specify a custom port and host to listen on. By default, mitmdump will listen on 127.0.0.1:8080. For example:
+Note that you can specify a custom port and host to listen on. By default, mitmdump will listen on 127.0.0.1:8080. 
+
+For example:
 
 ```bash
 mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-endpoint> --listen-host 0.0.0.0 --listen-port 8888
