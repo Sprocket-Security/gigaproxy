@@ -39,7 +39,7 @@ Look for the output `api-endpoint` in your terminal after applying.
 The proxy is started via the command line with arguments to specify the API endpoint and an API key.
 
 ```bash
-mitmdump -s gigaproxy.py --set auth_token=<api-endpoint> --set proxy_endpoint=<api-key>
+mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-endpoint>
 ```
 
 There are also a couple of secret options that you can use if you read the code. 
@@ -49,7 +49,7 @@ If you are going to run this on a VPS somewhere, we reccomend tossing this in a 
 Note that you can also specify a custom port and host to listen on. By default mitmdump will listen on 127.0.0.1:8080. For example:
 
 ```bash
-mitmdump -s gigaproxy.py --set auth_token=<api-endpoint> --set proxy_endpoint=<api-key> --listen-host 0.0.0.0 --listen-port 8888
+mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-endpoint> --listen-host 0.0.0.0 --listen-port 8888
 ```
 
 
