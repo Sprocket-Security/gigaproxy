@@ -52,6 +52,8 @@ resource "aws_iam_role" "forwarder-function-role" {
 
 # Attach the basic AWS Lambda execution role, which allows the Lambda to log to Cloudwatch
 resource "aws_iam_role_policy_attachment" "attach-basic-lambda-policy" {
+  count = var.enable_function_logging ? 1 : 0 
+
   role = aws_iam_role.forwarder-function-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
@@ -81,6 +83,8 @@ resource "aws_lambda_layer_version" "dependencies-layer" {
 
 # Create a log group and set default retention to 14 days so we don't get a crapload of logs just sitting there
 resource "aws_cloudwatch_log_group" "lambda-function-logs" {
+  count = var.enable_function_logging ? 1 : 0 
+  
   name = "/aws/lambda/${aws_lambda_function.forwarder-function.function_name}"
 
   retention_in_days = var.log_retention_period

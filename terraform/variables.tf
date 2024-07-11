@@ -11,6 +11,12 @@ variable "api_key" {
   default     = ""
 }
 
+variable "enable_function_logging" {
+  description = "Whether or not to enable logging on the forwarder Lambda function. Defaults to false (no logging)"
+  type = bool
+  default = false
+}
+
 variable "log_retention_period" {
   description = "Duration for how long logs should be kept for the forwarder function in days. Defaults to 14 days."
   type = number
