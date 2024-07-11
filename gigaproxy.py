@@ -44,7 +44,7 @@ def request(flow: http.HTTPFlow) -> None:
     try:
         # Adding new required headers for the proxy
         flow.request.headers["x-api-key"] = auth_token
-        flow.request.headers["forward-me-to"] = flow.request.pretty_url
+        flow.request.headers["x-forward-me-to"] = flow.request.pretty_url
 
         # Optional rotating user agent
         if rotate_user_agent:
