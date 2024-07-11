@@ -105,4 +105,4 @@ curl https://example.com
 ## References & Thanks 
 
 * [fireprox](https://github.com/ustayready/fireprox)
-* HOGMAN 
+* [This guy](https://github.com/Hogman-the-Intruder)
