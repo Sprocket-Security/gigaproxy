@@ -5,7 +5,7 @@
 ## Why? 
 fireprox is great but has one major downside. You can only target a single host at a time. 
 
-Gigaproxy solves this. Check out the blog post **COMING SOON** for more details on how it works. 
+Gigaproxy solves this. Check out the blog post [One Proxy to Rule Them All](https://www.sprocketsecurity.com/resources/gigaproxy) for more details on how it works. 
 
 ## Getting Started
 
