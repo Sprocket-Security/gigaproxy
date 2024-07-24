@@ -78,7 +78,7 @@ Every minute, your public IP should change.
 Run nuclei with the following command:
 
 ```bash
-nuclei -l endpoints.txt -t /path/to/nuclei-templates/ -x http://127.0.0.1:8888
+nuclei -l endpoints.txt -t /path/to/nuclei-templates/ -p http://127.0.0.1:8888
 ```
 
 Run ffuf with the following command:
