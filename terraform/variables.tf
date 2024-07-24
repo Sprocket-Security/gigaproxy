@@ -28,3 +28,29 @@ variable "api_monthly_quota" {
   type = number
   default = 10000000
 }
+
+##############
+# PROXY VARS #
+##############
+
+/*
+  ONLY set these vars if you need the proxy instance. Otherwise, can ignore, they will do nothing
+*/
+
+variable "optional_proxy_instance" {
+  description = "Whether or not to launch an AWS EC2 instance and launch mitmproxy on that instead of locally. Useful for troubleshooting."
+  type = bool
+  default = false
+}
+
+variable "proxy_inbound_ip_allowed" {
+  description = "IP range to allow on inbound connections, including netmask. Highly recommended to set this to your own public IP address, which can be retrieved at a site like https://ipv4.rawrify.com/ip -- if you really must allow all inbound, use 0.0.0.0/0"
+  type = string
+  default = "127.0.0.1/32"  # Purposefully incorrect value that you must override to actually get this to work. Acts as a failsafe so you don't launch a publicly open, completely unprotected proxy instance to the internet
+}
+
+variable "proxy_public_ssh_key" {
+  description = "Full content of the SSH public key pair to set on the instance. Generate an SSH key on your machine and simply supply the public keypair."
+  type = string
+  default = "Didn't set the SSH key properly"
+}
