@@ -59,7 +59,7 @@ mitmdump -s gigaproxy.py --set auth_token=<api-key> --set proxy_endpoint=<api-en
 If you run into issues with installing/configuring mitmproxy on a host, we provide the option to deploy an EC2 instance along with the rest of the Gigaproxy Terraform build that will install and run mitmproxy automatically. All you need to do is point to the public IP address of the EC2 host instead of `localhost` when proxying requests.
 
 To deploy this host, edit the `terraform/terraform.tfvars.example` file with the following changes:
-- remove the `.example` extension from the end of the filename -- `terraform.tfvars.example` -> `terraform.tfvars`
+- remove the `.example` extension from the end of the filename i.e. `terraform.tfvars.example` -> `terraform.tfvars`
 - change `optional_proxy_instance` to `true`
 - put your own public IP address in for the value of `proxy_inbound_ip_allowed`, including the netmask (e.g. `"x.x.x.x/32"`)
     - this value is very important as it will control the security group that gives access to your proxy instance -- **IF YOU LEAVE THIS OPEN TO 0.0.0.0/0 AND SOMEONE FIGURES OUT IT'S A PROXY, THEY CAN ROUTE THEIR TRAFFIC THROUGH YOUR GIGAPROXY INFRA**
@@ -71,6 +71,7 @@ After editing the above values appropriately, you can re-run `terraform apply` a
 **You will still need to install the mitmproxy certificate on client devices, or disable certificate/ssl/tls verification on your tooling.**
 
 example command run locally with cert validation disabled: `curl -x http://PUBLIC_IP_OF_PROXY_INSTANCE:8888 -k https://ipv4.rawrify.com/ip`
+
 example command run locally with normal parameters (cert successfully installed on client device): `curl -x http://PUBLIC_IP_OF_PROXY_INSTANCE:8888 https://ipv4.rawrify.com/ip`
 
 Some notes on the EC2 instance:
