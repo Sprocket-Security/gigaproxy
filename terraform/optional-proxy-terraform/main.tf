@@ -7,38 +7,45 @@
 */
 
 # Use latest ARM-based Ubuntu 22.04
-data "aws_ami" "latest-ubuntu-arm" {  
+data "aws_ami" "latest-ubuntu-arm" {
   most_recent = true
   filter {
-    name = "name"
+    name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*"]
   }
 
   owners = ["099720109477"]
 }
 
-resource "aws_key_pair" "ssh-keypair" {  
-  key_name = "${var.project_identifier}-temp-proxy-instance-key"
+resource "aws_key_pair" "ssh-keypair" {
+  key_name   = "${var.project_identifier}-temp-proxy-instance-key"
   public_key = var.ssh_public_key
 }
 
 
 resource "aws_instance" "proxy-instance" {
 
-  ami = data.aws_ami.latest-ubuntu-arm.id
+  ami           = data.aws_ami.latest-ubuntu-arm.id
   instance_type = "t4g.micro"
-  
+
   source_dest_check = false
 
   vpc_security_group_ids = [aws_security_group.proxy-sg.id]
-  subnet_id = module.proxy-vpc.public_subnets[0]
+  subnet_id              = module.proxy-vpc.public_subnets[0]
 
   key_name = aws_key_pair.ssh-keypair.id
 
-  user_data_base64 = filebase64("${path.module}/proxy-instance-bootstrap.sh")
+  user_data_base64 = base64encode(
+    templatefile("${path.module}/proxy-instance-bootstrap.sh",
+      {
+        "AUTH_TOKEN"   = var.gigaproxy_api_token,
+        "API_ENDPOINT" = var.gigaproxy_endpoint
+      }
+    )
+  )
 
   root_block_device {
-    encrypted = true 
+    encrypted = true
   }
 
   tags = {
@@ -58,52 +65,42 @@ module "proxy-vpc" {
   name = "${var.project_identifier}-vpc"
   cidr = var.vpc_cidr
 
-  azs = ["${var.aws_region}a", "${var.aws_region}b"]
+  azs            = ["${var.aws_region}a", "${var.aws_region}b"]
   public_subnets = ["10.99.0.0/24", "10.99.1.0/24"]
-  
-  map_public_ip_on_launch = true 
+
+  map_public_ip_on_launch = true
 }
 
 resource "aws_security_group" "proxy-sg" {
-  name = "${var.project_identifier}-sg"
+  name        = "${var.project_identifier}-sg"
   description = "For the ${var.project_identifier} proxy EC2 instance"
-  vpc_id = module.proxy-vpc.vpc_id 
+  vpc_id      = module.proxy-vpc.vpc_id
 }
 
 resource "aws_vpc_security_group_egress_rule" "proxy-sg-egress" {
   security_group_id = aws_security_group.proxy-sg.id
-  description = "Allow outbound"
+  description       = "Allow outbound"
 
   ip_protocol = "-1"
-  cidr_ipv4 = "0.0.0.0/0"
+  cidr_ipv4   = "0.0.0.0/0"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "proxy-sg-inbound-ssh" {
   security_group_id = aws_security_group.proxy-sg.id
-  description = "Allow inbound ssh"
+  description       = "Allow inbound ssh"
 
   ip_protocol = "tcp"
-  from_port = 22
-  to_port = 22
-  cidr_ipv4 = var.proxy_inbound_ip_allowed
+  from_port   = 22
+  to_port     = 22
+  cidr_ipv4   = var.proxy_inbound_ip_allowed
 }
 
-resource "aws_vpc_security_group_ingress_rule" "proxy-sg-inbound-http" {
+resource "aws_vpc_security_group_ingress_rule" "proxy-sg-inbound" {
   security_group_id = aws_security_group.proxy-sg.id
-  description = "Allow inbound http"
+  description       = "Allow inbound traffic to proxy"
 
   ip_protocol = "tcp"
-  from_port = 80
-  to_port = 80
-  cidr_ipv4 = var.proxy_inbound_ip_allowed
-}
-
-resource "aws_vpc_security_group_ingress_rule" "proxy-sg-inbound-https" {
-  security_group_id = aws_security_group.proxy-sg.id
-  description = "Allow inbound https"
-
-  ip_protocol = "tcp"
-  from_port = 443
-  to_port = 443
-  cidr_ipv4 = var.proxy_inbound_ip_allowed
+  from_port   = 8888
+  to_port     = 8888
+  cidr_ipv4   = var.proxy_inbound_ip_allowed
 }

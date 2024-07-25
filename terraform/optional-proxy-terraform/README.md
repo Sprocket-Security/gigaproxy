@@ -1,0 +1,4 @@
+### HEY 
+This should only be considered as a temporary, optional launching off point to help you in getting started with Gigaproxy. Don't rely on this proxy instance for long-term or production testing! One issue with it is it saves your API Gateway endpoint and auth token in the userdata of the EC2 instance, which can easily be extracted if someone gets access to your AWS account or dumps them from the instance metadata service on the instance (the 169.254.169.254 endpoint). You've been warned.
+
+Also, you will still need to install the mitmproxy cert locally unless you're fine with disabling cert validation on your tools. (e.g. passing `-k` with curl commands)
