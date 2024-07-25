@@ -18,5 +18,5 @@ module "optional-proxy-instance" {
 }
 
 output "proxy-public-ip" {
-  value = var.optional_proxy_instance ? "Proxy instance public IP: ${module.optional-proxy-instance[0].proxy-public-ip}" : ""
+  value = var.optional_proxy_instance ? "Proxy instance public IP: ${module.optional-proxy-instance[0].proxy-public-ip}" : null
 }
