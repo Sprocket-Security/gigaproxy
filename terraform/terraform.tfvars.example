@@ -1,0 +1,7 @@
+# Enables function logs in Cloudwatch
+enable_function_logging  = false
+
+# optional proxy vars -- refer to README
+optional_proxy_instance  = false
+proxy_inbound_ip_allowed = ""
+proxy_public_ssh_key     = ""
